@@ -1,0 +1,88 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.1.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.1.xsd ">
+
+
+	<!-- 加载配置文件 -->
+	<context:property-placeholder location="classpath:db.properties" />
+
+	<!-- 使用第三方的数据库连接池dbcp -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		
+	</bean>
+
+
+
+
+
+
+	<!-- 配置SqlSessionFactoryBean(即替代MyBatisUtil工具类的作用) -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 加载mabatis的配置文件 -->
+		<property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml" />
+		<!-- 引入数据源 -->
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+
+
+
+
+
+
+
+	 <!-- mapper接口方式开发 -->
+	<!-- <bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean"> 
+		对应的接口 <property name="mapperInterface" value="com.henry.ssm.mapper.UserMapper"></property> 
+		代理类已经实现SqlSessionDaoSupport <property name="sqlSessionFactory" ref="sqlSessionFactory" 
+		/> </bean> -->
+	
+
+
+	<!-- 每次配置mapper bean比较繁琐 使用mapper扫描器来扫描 批量生成mapper bean
+	 使用时只要使用接口的首字母小写直接调用getbean获取 
+	 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	
+		<property name="basePackage" value="com.henry.ssm.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		
+	</bean>
+
+
+	<!-- 配置事务管理器(即使用JDBC事务管理器) -->
+	<!-- <bean id="dataSourceTransactionManagerID" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
+		<property name="dataSource" ref="comboPooledDataSourceID" /> </bean> -->
+
+
+	<!-- 配置事务通知(即哪些方法需要事务) -->
+	<!-- <tx:advice id="tx" transaction-manager="dataSourceTransactionManagerID"> 
+		<tx:attributes> <tx:method name="*" propagation="REQUIRED" /> </tx:attributes> 
+		</tx:advice> -->
+
+
+	<!-- 配置事务切面(即哪些包中的类需要事务通知) -->
+	<!-- <aop:config> <aop:pointcut id="pointcut" expression="execution(* cn.itcast.javaee.mybatis.dao.*.*(..))" 
+		/> <aop:advisor advice-ref="tx" pointcut-ref="pointcut" /> </aop:config> -->
+
+
+
+
+
+
+</beans>
