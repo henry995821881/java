@@ -26,9 +26,12 @@ public class WinterContextListner implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 
+		ServletContext servletContext = arg0.getServletContext();
+		String configePath = servletContext.getInitParameter("contextConfigLocation");
+		
 		
 		try {
-			new Winter().initContainer("app.xml");
+			new Winter().initContainer(configePath);
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
