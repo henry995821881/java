@@ -211,6 +211,7 @@ class SaxHandler extends DefaultHandler {
 
 			String qPackageName = file.getAbsolutePath().replace(File.separator, ".");
 
+		
 			// .class
 			qPackageName = qPackageName.substring(0, qPackageName.lastIndexOf(".class"));
 			String packageClassName = qPackageName.substring(qPackageName.indexOf(packageName));
@@ -222,15 +223,17 @@ class SaxHandler extends DefaultHandler {
 
 				Class<?> clzzForScan = Class.forName(packageClassName);
 				if (!clzzForScan.isInterface() && !clzzForScan.isEnum()) {
-
-					map.put(id, clzzForScan.newInstance());
+					
+					Object newObject =null;
+					try {
+						newObject = clzzForScan.newInstance();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					map.put(id, newObject);
 				}
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

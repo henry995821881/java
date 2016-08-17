@@ -32,7 +32,6 @@ public class DispatchCommandServlet extends HttpServlet {
 
 		DefaultActionMapping mapping = (DefaultActionMapping) ApplicationBeanFactory.getBean("defaultActionMapping");
 
-	
 		String requestURI = request.getRequestURI();
 		ServletContext context = request.getSession().getServletContext();
 
@@ -46,8 +45,10 @@ public class DispatchCommandServlet extends HttpServlet {
 			System.out.println("actionAndMethod is null");
 			return;
 		}
-		Object obj = actionAndMethod[0];
+		String key = (String) actionAndMethod[0];
+		Object obj = ApplicationBeanFactory.getBean(key);
 		Method method = (Method) actionAndMethod[1];
+
 		Enumeration<String> parameterNames = request.getParameterNames();
 		Map<String, Object> parameterMap = new HashMap<>();
 		while (parameterNames.hasMoreElements()) {
@@ -60,9 +61,26 @@ public class DispatchCommandServlet extends HttpServlet {
 			}
 		}
 
-		
+		// 回显
+		ActionMethod ann = method.getAnnotation(ActionMethod.class);
+		String inputName = ann.inputName().trim();
+		if (!"".equals(inputName)) {
+			String[] names = inputName.split(",");
+
+			for (String name : names) {
+
+				Object re_param = null;
+				if ((re_param = parameterMap.get(name)) != null) {
+
+					request.setAttribute(name, re_param);
+				}
+
+			}
+
+		}
+
 		Object jspUrl = null;
-		
+
 		try {
 			jspUrl = method.invoke(obj, new Object[] { request, response, parameterMap });
 		} catch (IllegalAccessException e) {
