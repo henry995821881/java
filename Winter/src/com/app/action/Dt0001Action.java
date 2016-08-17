@@ -44,7 +44,7 @@ public class Dt0001Action {
 		
 	}
 	
-	@ActionMethod(url="/reParam.do",inputName="hah")
+	@ActionMethod(url="/reParam.do",inputName="hah,hah1,hah2,hah3")
 	public String reParam(HttpServletRequest request,HttpServletResponse response,Map data){
 		
 		return "/winter/submit1.jsp";
