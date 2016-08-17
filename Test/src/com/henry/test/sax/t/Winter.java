@@ -1,4 +1,4 @@
-package org.winter.fromwork;
+package com.henry.test.sax.t;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,76 +15,42 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.winter.fromwork.aop.AbsInterceptorListener;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
+import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class Winter {
 
-	public void initContainer(String xmlFile) throws ParserConfigurationException, SAXException, IOException {
-		InputStream input = this.getClass().getClassLoader().getResourceAsStream(xmlFile);
+	public static void main(String[] args) {
+
+		try {
+			new Winter().initContainer();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void initContainer() throws ParserConfigurationException, SAXException, IOException {
+		InputStream input = this.getClass().getClassLoader().getResourceAsStream("hh.xml");
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser parser = factory.newSAXParser();
 		SaxHandler handler = new SaxHandler();
 		parser.parse(input, handler);
 		HashMap<String, Object> map = handler.getMap();
-		setInterceptor(map);
-		print(map);
-		AbsInterceptorListener soldier = getSoldierInterceptor(map);
-
-		ApplicationBeanFactory.setBeans(map, soldier);
-
-	}
-
-	public void print(HashMap<String, Object> map) {
-		for (Entry<String, Object> e : map.entrySet()) {
-
-			System.out.println("register: " + e.getKey() + ":" + e.getValue());
+	
+		
+		for (Entry<String,Object> entry: map.entrySet()) {
+			
+			System.out.println(entry.getKey()+":"+entry.getValue());
 		}
-		System.out.println("*");
-	}
-
-	private AbsInterceptorListener getSoldierInterceptor(HashMap<String, Object> map) {
-
-		HashMap<String, Object> interceptors = (HashMap<String, Object>) map.get("interceptors");
-		return (AbsInterceptorListener) interceptors.get("soldier");
-
-	}
-
-	private void setInterceptor(HashMap<String, Object> map) {
-
-		HashMap<String, Object> interceptors = new HashMap<>();
-		Iterator<Entry<String, Object>> it = map.entrySet().iterator();
-		AbsInterceptorListener interceptorBoss = null;
-		while (it.hasNext()) {
-			Entry<String, Object> entry = it.next();
-			Class<?> superclass = entry.getValue().getClass().getSuperclass();
-
-			if ("org.winter.fromwork.aop.AbsInterceptorListener".equals(superclass.getName())) {
-				AbsInterceptorListener interceptor = (AbsInterceptorListener) entry.getValue();
-
-				if (interceptorBoss != null) {
-
-					interceptor.setInterceptorBoss(interceptorBoss);
-				}
-
-				interceptorBoss = interceptor;
-
-				//
-				interceptors.put(entry.getKey(), interceptor);
-				it.remove();
-
-			}
-
-		}
-
-		AbsInterceptorListener soldier = interceptorBoss;
-		interceptors.put("soldier", soldier);
-
-		map.put("interceptors", interceptors);
 	}
 
 }
@@ -119,7 +85,6 @@ class SaxHandler extends DefaultHandler {
 
 			try {
 				clazz = Class.forName(attr.getValue("class"));
-
 				newInstance = clazz.newInstance();
 
 			} catch (ClassNotFoundException e) {
@@ -210,36 +175,28 @@ class SaxHandler extends DefaultHandler {
 		for (File file : list) {
 
 			String qPackageName = file.getAbsolutePath().replace(File.separator, ".");
-
-		
 			// .class
-			qPackageName = qPackageName.substring(0, qPackageName.lastIndexOf(".class"));
+			qPackageName = qPackageName.substring(0, qPackageName.lastIndexOf(".java"));
 			String packageClassName = qPackageName.substring(qPackageName.indexOf(packageName));
 			String className = packageClassName.substring(packageClassName.lastIndexOf(".") + 1);
 
 			String id = className.substring(0, 1).toLowerCase() + className.substring(1);
 
 			try {
-
-				Class<?> clzzForScan = Class.forName(packageClassName);
-				if (!clzzForScan.isInterface() && !clzzForScan.isEnum()) {
-					
-					Object newObject =null;
-					try {
-						newObject = clzzForScan.newInstance();
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-					map.put(id, newObject);
-				}
+				map.put(id, Class.forName(packageClassName).newInstance());
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 		}
+
 	}
 
 	public void AllFileToList(File folder, List<File> list) {

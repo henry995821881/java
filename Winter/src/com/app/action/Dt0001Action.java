@@ -21,7 +21,7 @@ public class Dt0001Action {
 	@Autowired(beanId="dtServiceImpl")
 	private DtService dtService;
 	
-	@ActionMethod(url="/edit.do")
+	@ActionMethod(url="/edit.do",inputName="checkbao1,hidden1")
 	public String editItem(HttpServletRequest request,HttpServletResponse response,Map data){
 		
 		
@@ -42,6 +42,12 @@ public class Dt0001Action {
 		
 		return "/winter/queryItem.jsp";
 		
+	}
+	
+	@ActionMethod(url="/reParam.do",inputName="hah,hah1,hah2,hah3")
+	public String reParam(HttpServletRequest request,HttpServletResponse response,Map data){
+		
+		return "/winter/submit1.jsp";
 	}
 
 }

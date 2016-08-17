@@ -35,8 +35,8 @@ public class DefaultActionMapping {
 				ActionMethod actionMethod = method.getAnnotation(ActionMethod.class);
 				if(actionMethod !=null && relativePath.equals(actionMethod.url())){
 					
-					Object actionProxy = ApplicationBeanFactory.getBean(key);
-					Object[] actionAndMethod = new Object[]{actionProxy,method};
+					
+					Object[] actionAndMethod = new Object[]{key,method};
 					//Object[] actionAndMethod = new Object[]{action,method};
 					
 					return actionAndMethod;

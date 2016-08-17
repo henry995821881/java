@@ -27,7 +27,7 @@ public class JdkProxyFactory implements InvocationHandler {
 		// TODO Auto-generated method stub
 		Object result = null;
 		System.out.println("before");
-		result = method.invoke(proxy, args);
+		result = method.invoke(target, args);
 
 		return result;
 	}
@@ -38,7 +38,10 @@ public class JdkProxyFactory implements InvocationHandler {
 		System.out.println(impl);
 		JdkProxyFactory factory = new JdkProxyFactory();
 		
-         DtService proxyInstance = (DtService) factory.getProxyInstance(impl);
+         Object proxyInstance = factory.getProxyInstance(impl);
+         System.out.println((proxyInstance instanceof DtService));
+         //DtService proxyInstance = (DtService) factory.getProxyInstance(impl);
+
          
          System.out.println(proxyInstance);
 	

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+<bean id="pp" class="com.henry.test.sax.t.Person">
+	<property name="name" value="true" />
+	<property name="sex" value="2.5" />
+	<property name="leg" ref="leg" />
+	<property name="age" value="15" />
+</bean>
+<bean id="leg" class="com.henry.test.sax.t.Leg">
+	<property name="thumb" value="da" />
+	<property name="num" value="2" />
+</bean>
+<scan package ="com.henry.test.sax.a"/>
+</beans>

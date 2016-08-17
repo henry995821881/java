@@ -19,7 +19,7 @@ public class DtServiceImpl implements DtService{
 	public List<String> getKekan() {
 		
 		
-		int a = 9/0;
+		//int a = 9/0;
 		
 		return dao.getKikanList();
 	}

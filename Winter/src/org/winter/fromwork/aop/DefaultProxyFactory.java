@@ -33,6 +33,7 @@ import org.mockito.cglib.proxy.MethodProxy;
 		//
 
 		try {
+			method.setAccessible(true);
 			result = method.invoke(this.target, args);
 		} catch (Exception e) {
 			
