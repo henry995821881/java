@@ -9,11 +9,11 @@ import org.winter.fromwork.aop.AbsInterceptorListener;
 
 public class AopLog extends AbsInterceptorListener {
 
+	Logger log = Logger.getLogger(AopLog.class);
 	@Override
 	public void before(Object obj, Method method, Object[] args, MethodProxy proxy) {
 		
 	
-		Logger log = Logger.getLogger("");
 		log.info(obj+"."+method.getName() +":start");
 		
 		proceedBefore(obj, method, args, proxy);

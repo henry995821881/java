@@ -27,6 +27,8 @@ public class TestLog {
 	     Logger logger = Logger.getLogger(TestLog.class);
 
 		  logger.warn("sjdf");
+		  logger.info("info");
+		  logger.debug("debug");
 		
 	}
 

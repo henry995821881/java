@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.winter.fromwork.aop.AbsInterceptorListener;
 import org.winter.fromwork.aop.DefaultProxyFactory;
 
@@ -14,7 +15,7 @@ public class ApplicationBeanFactory {
 	
 	
 	private static String sessionfactoryId ="";
-
+	static Logger logger = Logger.getLogger(ApplicationBeanFactory.class);
 	
 	private static DefaultProxyFactory proxyFactory = new DefaultProxyFactory();
 	public static void setSessionfactoryId(String sessionfactoryId) {
@@ -41,6 +42,7 @@ public class ApplicationBeanFactory {
 
 	private static void autowiredBean(Object bean) {
 
+		
 		if(bean ==null){
 			return;
 		}
@@ -61,7 +63,8 @@ public class ApplicationBeanFactory {
 
 							field.set(bean, result);
 						}else{
-							System.out.println(beanId+":=="+"Autowired:beanId is err or not bean in container");
+							logger.warn(beanId+":=="+"Autowired:beanId is err or not bean in container");
+							
 						}
 					} catch (IllegalArgumentException e) {
 						// TODO Auto-generated catch block
@@ -94,6 +97,8 @@ public class ApplicationBeanFactory {
 	
 	public static void wiredAndprintBeans() {
 		
+		
+		logger.info("beans in container----------");
 		//自动注入and print
 		for (Entry<String, Object> e : map.entrySet()) {
 
@@ -102,9 +107,10 @@ public class ApplicationBeanFactory {
 				autowiredBean(bean);
 			}
 			
-			System.out.println("register: " + e.getKey() + ":" + e.getValue());
+			logger.info("register: " + e.getKey() + ":" + e.getValue());
+			
 		}
-		System.out.println("*");
+		logger.info("----------");
 	}
 
 }

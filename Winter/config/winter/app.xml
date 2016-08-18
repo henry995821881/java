@@ -20,7 +20,7 @@
 	<scan package="com.app.service" />
 	<scan package="com.app.dao" />
 
-	<mybatis factoryId="sqlSessionFactoryId" path="mybatis/config.xml"
-		factoryBuilderClass="org.apache.ibatis.session.SqlSessionFactoryBuilder" />
+	 <mybatis factoryId="sqlSessionFactoryId" path="mybatis/config.xml"
+		factoryBuilderClass="org.apache.ibatis.session.SqlSessionFactoryBuilder" /> 
 
 </beans>
