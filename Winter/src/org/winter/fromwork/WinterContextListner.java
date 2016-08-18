@@ -14,7 +14,7 @@ import javax.servlet.ServletContextListener;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.ibatis.session.SqlSessionFactory;
-
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.PropertyConfigurator;
 import org.xml.sax.SAXException;
 
@@ -40,6 +40,7 @@ public class WinterContextListner implements ServletContextListener {
 	}
 
 	private void initMybatis(ServletContext servletContext) {
+		System.out.println("初始化 mybatis");
 		Object bean = ApplicationBeanFactory.getBean("mybatis");
 		if (bean != null) {
 
@@ -102,6 +103,7 @@ public class WinterContextListner implements ServletContextListener {
 	}
 
 	private void initWinter(ServletContext servletContext) {
+		System.out.println("初始化 winter");
 		String winterPath = servletContext.getInitParameter("winterConfigLocation");
 		try {
 			new Winter().initContainer(winterPath);
@@ -119,26 +121,24 @@ public class WinterContextListner implements ServletContextListener {
 	}
 
 	private void initLogger4j(ServletContext servletContext) {
+		
+		System.out.println("初始化log4g");
 		String path = servletContext.getInitParameter("Log4jConfigLocation");
+		
+		
 		Properties prop = new Properties();
-		InputStream is1 = WinterContextListner.class.getClassLoader().getResourceAsStream(path);
 		try {
-			prop.load(is1);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			InputStream is1 = WinterContextListner.class.getClassLoader().getResourceAsStream(path);
+			
+		prop.load(is1);	
+		PropertyConfigurator.configure(prop);
+		System.out.println("PropertyConfigurator 初始化 log4j");
+		} catch (Exception e) {
+			BasicConfigurator.configure();
+			System.out.println("默认basic 初始化 log4j");
 			e.printStackTrace();
-		} finally {
-			try {
-				is1.close();
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			} finally {
-				is1 = null;
-			}
 		}
 
-		PropertyConfigurator.configure(prop);
 
 	}
 

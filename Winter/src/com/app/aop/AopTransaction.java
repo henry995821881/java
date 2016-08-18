@@ -42,7 +42,7 @@ public class AopTransaction extends AbsInterceptorListener {
 		
 	   
 		Logger log = Logger.getLogger("");
-		log.info(e+":"+method.getName());
+		log.info(obj+""+e+":"+method.getName());
 	    log.debug("rollback");
 		proceedException(obj, method, args, proxy, e);
 		
