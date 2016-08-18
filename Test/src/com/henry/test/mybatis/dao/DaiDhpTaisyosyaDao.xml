@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的 
+	例如namespace="me.gacl.mapping.userMapper"就是me.gacl.mapping(包名)+userMapper(userMapper.xml文件去除后缀) -->
+<mapper namespace="com.henry.test.mybatis.dao.DaiDhpTaisyosyaDao">
+
+	<!-- <select id="getDhpTaisyosyaList" parameterType="java.util.Map" resultType="com.henry.test.mybatis.bean.DaiDhpTaisyosya" 
+		> </select> -->
+		
+		
+		
+	<!-- 	where id in（1,3,6）
+		    <if test="ids!=null">  
+                <foreach collection="ids" item="userid" open=" and id in (" close=")" separator=",">  
+                    遍历拼接的串  
+                    #{id}  
+                </foreach>  
+          </if>  --> 
+          
+          
+          
+   <!--  where id=1 or id=3 or id=6
+    <if test="ids!=null">  
+                <foreach collection="ids" item="userid" open=" and (" close=")" separator="or">  
+                    遍历拼接的串  
+                    id=#{id}  
+                </foreach>  
+     </if>   -->
+
+	<resultMap type="com.henry.test.mybatis.bean.DaiDhpTaisyosya"
+		id="DaiDhpTaisyosya">
+		<!-- <id column="" property="" javaType=""/> --><!-- 性能 -->
+		<result column="kanyu_no2"   property="kanyuNo2"  javaType="String"/>
+		<result column="fuyou_no2"   property="fuyouNo2"  />
+		<result column="kigou"       property="kigou" />
+		<result column="bangou"      property="bangou" />
+		<result column="zokugara_nm" property="zokugaraNm" />
+		<result column="kojin_nm"    property="kojinNm" />
+		<result column="sex"         property="sex" />
+		<result column="age"         property="age"  />
+		<result column="org"         property="org" />	
+		<result column="note"        property="note" />
+
+	</resultMap>
+	
+	<sql id="getDhpTaisyosyaListSqlWhere">
+	   <!--  /*IF data.dhpArrayCd !=
+		null && data.dhpArrayCd != ""*/
+		and dhp.genkou_dhp_kbn in
+		/*data.dhpArrayCd*/('selectGroup')
+		/*END*/ -->
+		
+		<if test="dhpArrayCd !=null and  dhpArrayCd != ''">
+		
+		<foreach collection="dhpArrayCd" item="cd" open=" and dhp.genkou_dhp_kbn in (" close=")" separator="," >		
+		         #{cd}
+		</foreach>
+		</if>
+		
+		<!-- 
+		/*IF data.sosituFlag */
+		and
+		(ko.SOUSITUBI is null or (ko.SOUSITUBI > sysdate and ko.SYUTOKUBI <=
+		sysdate))
+		/*END*/ -->
+		<if test="sosituFlag == true">		
+		and (ko.SOUSITUBI is null or (ko.SOUSITUBI &gt; sysdate and ko.SYUTOKUBI &lt;= sysdate))
+		</if>
+
+		<!-- /*IF data.zokugaraKbn == "1" */
+		and ko.fuyou_no ='0'
+		/*END*/ -->
+		
+	  <if test="zokugaraKbn == '1'">
+	  and ko.fuyou_no ='0'
+	  </if>	
+		
+		<!-- /*IF data.zokugaraKbn == "2" */
+		and ko.fuyou_no <>'0'
+		/*END*/ -->
+		<if test="zokugaraKbn == '2'">
+		and ko.fuyou_no &lt;&gt;'0'
+		</if>
+		
+		<!-- /*IF data.datefrom !=null && data.datefrom !="" */
+		and
+		to_char(koj.tanjoubi,'YYYY/MM/DD') >= /*data.datefrom*/
+		/*END*/ -->
+		<if  test="datefrom != null and datefrom != ''">
+		and to_char(koj.tanjoubi,'YYYY/MM/DD') >=  #{datefrom}
+		</if>
+		
+		
+		<!-- /*IF
+		data.dateto !=null && data.dateto !="" */
+		and
+		to_char(koj.tanjoubi,'YYYY/MM/DD')<= /*data.dateto*/
+		/*END*/ -->
+		
+		<if test="dateto !=null and dateto != ''">
+	     and to_char(koj.tanjoubi,'YYYY/MM/DD')&lt;= #{dateto}	
+		</if>
+		
+		
+		<!-- /*IF
+		data.sex !=null && data.sex != "" */
+		and koj.seibetu =/*data.sex*/
+		/*END*/ -->
+		<if test="sex !=null and sex !=''">
+		and koj.seibetu =#{sex}
+		</if>
+		
+		
+		<!-- /*IF data.reseCheckBox*/
+			/*IF data.hanni == "1" */
+			    /*IF
+			    data.kigouArray != null*/
+			    and ko.kigou in
+			    /*data.kigouArray*/('selectGroup')
+			    /*END*/
+			/*END*/
+	
+			/*IF data.hanni == "2"
+			*/
+			/*IF data.personFlg == "1" */
+			and ko.kanyu_no = /*data.kanyuNo*/
+			and
+			ko.fuyou_no = /*data.fuyouNo*/
+			/*END*/
+			/*IF data.personFlg == "0" */
+			and
+			ko.kigou = /*data.kigou*/
+			and ko.bangou =/*data.bangou*/
+			/*END*/
+			/*END*/
+		/*END*/ -->
+		<if test="reseCheckBox ==true">
+		     <if  test="hanni == '1'">
+		          <if test="kigouArray !=null">
+		             <foreach collection="kigouArray" item="cd" open="and ko.kigou in" close=")" separator=",">
+		               #{cd}
+		             </foreach>
+		          </if>
+		     </if>
+		     <if test="hanni ==2"> 
+		         <if test =" personFlag =='1'">
+		         and ko.kanyu_no = #{kanyuNo}
+		         and ko.fuyou_no = #{fuyouNo}
+		         </if>
+		         <if test="personFlag =='0'" >	         
+			       and ko.kigou = #{kigou}
+			       and ko.bangou =#{bangou}
+		         </if>
+		     </if>
+		     
+		     
+		</if>
+		
+	</sql>
+
+	<select id="getDhpTaisyosyaList" parameterType="java.util.Map"
+		resultMap="DaiDhpTaisyosya">
+		select
+		dhp.kanyu_no as kanyu_no2,
+		dhp.fuyou_no as fuyou_no2,
+		ko.kigou,
+		ko.bangou,
+		z.nm as zokugara_nm,
+		koj.nm kojin_nm,
+		m.org as sex,
+		FN_NENREI(koj.tanjoubi,sysdate) as age,
+		ctm.org,
+		c.note
+		from
+		dai_dhp_taisyosya dhp
+		inner join kojinrireki ko
+		on dhp.kanyu_no =
+		ko.kanyu_no
+		and dhp.fuyou_no = ko.fuyou_no
+		and ko.syutoku_no = (select
+		max(ko1.syutoku_no) from kojinrireki ko1
+		where ko1.kanyu_no =
+		ko.kanyu_no and ko1.fuyou_no = ko.fuyou_no)
+		inner join kojin koj
+		on
+		koj.kanyu_no = ko.kanyu_no
+		and koj.fuyou_no = ko.fuyou_no
+		left join
+		zokugara z
+		on z.cd = ko.zokugara_cd
+		left join m_code_tbl m
+		on m.kbn
+		='119'
+		and m.cd = koj.seibetu
+		left join ctm_code_tbl ctm
+		on ctm.cd =
+		dhp.hantei_moto
+		and ctm.kbn ='D18'
+		left join ctm_code_tbl c
+		on c.cd =
+		dhp.genkou_dhp_kbn
+		and c.kbn ='D12'
+		<where>
+		<include refid="getDhpTaisyosyaListSqlWhere"></include>
+		</where>
+		
+		order by ko.kigou,ko.bangou,z.cd
+
+	</select>
+
+
+	<!-- <resultMap id="BaseResultMap" type="com.ldrc.srm.jczx.dal.dataobject.construction.technology.PatentExecute"> 
+		<id column="SPE_ID" property="speId" jdbcType="INTEGER" /> <result column="SAD_ID" 
+		property="sadId" jdbcType="INTEGER" /> <result column="SPE_NUM" property="speNum" 
+		jdbcType="VARCHAR" /> <result column="SPE_APPLY_DATE" property="speApplyDate" 
+		jdbcType="DATE" /> <result column="SPE_APPLY_REMARK" property="speApplyRemark" 
+		jdbcType="VARCHAR" /> <result column="SPE_PEOPLE_NAME" property="spePeopleName" 
+		jdbcType="VARCHAR" /> <result column="SPE_INVENT_NAME" property="speInventName" 
+		jdbcType="VARCHAR" /> <result column="SPE_STUTAS" property="speStutas" jdbcType="VARCHAR" 
+		/> <result column="SPE_PRIORITY" property="spePriority" jdbcType="VARCHAR" 
+		/> <result column="SPE_PUBLISH_NUM" property="spePublishNum" jdbcType="VARCHAR" 
+		/> <result column="SPE_ISSUE_NUM" property="speIssueNum" jdbcType="VARCHAR" 
+		/> <result column="SPE_DIGEST" property="speDigest" jdbcType="VARCHAR" /> 
+		<result column="SPE_MAIN_NUM" property="speMainNum" jdbcType="VARCHAR" /> 
+		<result column="SPE_AGENT" property="speAgent" jdbcType="VARCHAR" /> <result 
+		column="SPE_FILE" property="speFile" jdbcType="VARCHAR" /> <collection property="files" 
+		column="SPE_FILE" ofType="com.ldrc.srm.jczx.dal.dataobject.file.SrmFile" 
+		select="SrmFileMapper.selectByEgCode" resultMap="SrmFileMapper.BaseResultMap"> 
+		</collection> </resultMap> <sql id="Base_Column_List"> SPE_ID, SAD_ID, SPE_NUM, 
+		SPE_APPLY_DATE, SPE_APPLY_REMARK, SPE_PEOPLE_NAME, SPE_INVENT_NAME, SPE_STUTAS, 
+		SPE_PRIORITY, SPE_PUBLISH_NUM, SPE_ISSUE_NUM, SPE_DIGEST, SPE_MAIN_NUM, SPE_AGENT, 
+		SPE_FILE </sql> <select id="r" resultMap="BaseResultMap" parameterType="java.util.Map"> 
+		select t3.* from sm_s_assessment t1 left join SM_S_ASSESSMENT_PLAN t2 on 
+		t1.SASS_ID = t2.SASS_ID left join SM_PATENT_EXECUTE t3 on t2.SAD_ID = t3.SAD_ID 
+		where t1.SBI_ID = #{sbiId, jdbcType=INTEGER} </select> <select id="selectAllAimpatent" 
+		resultMap="BaseResultMap" parameterType="java.lang.Integer"> select * from 
+		SM_PATENT_EXECUTE </select> <select id="selectByPrimaryKey" resultMap="BaseResultMap" 
+		parameterType="java.lang.Integer"> select <include refid="Base_Column_List" 
+		/> from SM_PATENT_EXECUTE where SPE_ID = #{speId,jdbcType=INTEGER} </select> -->
+
+</mapper>
