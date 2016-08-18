@@ -18,6 +18,8 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.PropertyConfigurator;
 import org.xml.sax.SAXException;
 
+import sun.nio.cs.ext.ISCII91;
+
 public class WinterContextListner implements ServletContextListener {
 
 	@Override
@@ -125,10 +127,10 @@ public class WinterContextListner implements ServletContextListener {
 		System.out.println("初始化log4g");
 		String path = servletContext.getInitParameter("Log4jConfigLocation");
 		
-		
+		InputStream is1 =null;
 		Properties prop = new Properties();
 		try {
-			InputStream is1 = WinterContextListner.class.getClassLoader().getResourceAsStream(path);
+			 is1 = WinterContextListner.class.getClassLoader().getResourceAsStream(path);
 			
 		prop.load(is1);	
 		PropertyConfigurator.configure(prop);
@@ -137,6 +139,17 @@ public class WinterContextListner implements ServletContextListener {
 			BasicConfigurator.configure();
 			System.out.println("默认basic 初始化 log4j");
 			e.printStackTrace();
+		}finally {
+			if(is1 !=null){
+				try {
+					is1.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally {
+					is1 =null;
+				}
+			}
 		}
 
 
