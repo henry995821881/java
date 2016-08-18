@@ -45,7 +45,7 @@ public class CglicProxyFactory  implements MethodInterceptor {
 		DtServiceImpl proxyInstance =  (DtServiceImpl) factory.getProxyInstance(impl);
 		System.out.println(proxyInstance);
 		
-		proxyInstance.getKekan();
+		proxyInstance.getDhpTaisyosyaList();
 	}
 
 

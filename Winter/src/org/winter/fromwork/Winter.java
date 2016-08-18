@@ -32,20 +32,14 @@ public class Winter {
 		parser.parse(input, handler);
 		HashMap<String, Object> map = handler.getMap();
 		setInterceptor(map);
-		print(map);
+		
 		AbsInterceptorListener soldier = getSoldierInterceptor(map);
 
 		ApplicationBeanFactory.setBeans(map, soldier);
 
 	}
 
-	public void print(HashMap<String, Object> map) {
-		for (Entry<String, Object> e : map.entrySet()) {
-
-			System.out.println("register: " + e.getKey() + ":" + e.getValue());
-		}
-		System.out.println("*");
-	}
+	
 
 	private AbsInterceptorListener getSoldierInterceptor(HashMap<String, Object> map) {
 
@@ -198,6 +192,13 @@ class SaxHandler extends DefaultHandler {
 			}
 			handlerFile(packageName, folder, map);
 
+		}else if("mybatis".equals(qName)){
+			
+			HashMap<String, Object> mybatisConfig =new HashMap<>();		
+			mybatisConfig.put("factoryId", attr.getValue("factoryId"));
+			mybatisConfig.put("path",  attr.getValue("path"));			
+			mybatisConfig.put("factoryBuilderClass",  attr.getValue("factoryBuilderClass"));			
+			map.put("mybatis", mybatisConfig);
 		}
 
 	}
@@ -211,34 +212,34 @@ class SaxHandler extends DefaultHandler {
 
 			String qPackageName = file.getAbsolutePath().replace(File.separator, ".");
 
-		
-			// .class
-			qPackageName = qPackageName.substring(0, qPackageName.lastIndexOf(".class"));
-			String packageClassName = qPackageName.substring(qPackageName.indexOf(packageName));
-			String className = packageClassName.substring(packageClassName.lastIndexOf(".") + 1);
+			if (qPackageName.endsWith(".class")) {
+				// .class
+				qPackageName = qPackageName.substring(0, qPackageName.lastIndexOf(".class"));
+				String packageClassName = qPackageName.substring(qPackageName.indexOf(packageName));
+				String className = packageClassName.substring(packageClassName.lastIndexOf(".") + 1);
 
-			String id = className.substring(0, 1).toLowerCase() + className.substring(1);
+				String id = className.substring(0, 1).toLowerCase() + className.substring(1);
 
-			try {
+				try {
 
-				Class<?> clzzForScan = Class.forName(packageClassName);
-				if (!clzzForScan.isInterface() && !clzzForScan.isEnum()) {
-					
-					Object newObject =null;
-					try {
-						newObject = clzzForScan.newInstance();
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					Class<?> clzzForScan = Class.forName(packageClassName);
+					if (!clzzForScan.isInterface() && !clzzForScan.isEnum()) {
+
+						Object newObject = null;
+						try {
+							newObject = clzzForScan.newInstance();
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						map.put(id, newObject);
 					}
-					
-					map.put(id, newObject);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-
 		}
 	}
 

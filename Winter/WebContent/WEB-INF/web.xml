@@ -14,21 +14,21 @@
 	</welcome-file-list>
 
 	<context-param>
-		<param-name>contextConfigLocation</param-name>
+		<param-name>winterConfigLocation</param-name>
 		<param-value>winter/app.xml</param-value>
 	</context-param>
+
+	<context-param>
+		<param-name>Log4jConfigLocation</param-name>
+		<param-value>log4j.properties</param-value>
+	</context-param>
+
 	<listener>
 		<listener-class>org.winter.fromwork.WinterContextListner</listener-class>
 	</listener>
-	<filter>
-		<filter-name>securityFilter</filter-name>
-		<filter-class></filter-class>
-
-	</filter>
-	<filter-mapping>
-		<filter-name>securityFilter</filter-name>
-		<url-pattern>/winter/*</url-pattern>
-	</filter-mapping>
+	<!-- <filter> <filter-name>securityFilter</filter-name> <filter-class></filter-class> 
+		</filter> <filter-mapping> <filter-name>securityFilter</filter-name> <url-pattern>/winter/*</url-pattern> 
+		</filter-mapping> -->
 
 	<servlet>
 		<description></description>

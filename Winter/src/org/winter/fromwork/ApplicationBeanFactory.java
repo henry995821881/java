@@ -11,16 +11,31 @@ public class ApplicationBeanFactory {
 	private static HashMap<String, Object> map = new HashMap<>();
 
 	private static AbsInterceptorListener soldier = null;
+	
+	
+	private static String sessionfactoryId ="";
+
+	
+	private static DefaultProxyFactory proxyFactory = new DefaultProxyFactory();
+	public static void setSessionfactoryId(String sessionfactoryId) {
+		ApplicationBeanFactory.sessionfactoryId = sessionfactoryId;
+	}
 
 	public static Object getBean(String id) {
 
 		Object bean = null;
 
 		bean = map.get(id);
-		// autoWired
-		autowiredBean(bean);
+		
+		
+		if(sessionfactoryId.equals(id) ||"mybatis".equals(id)){
+			return bean;
+		}
 
-		return new DefaultProxyFactory().getProxyInstance(bean, soldier);
+		if(bean ==null){
+			return bean;
+		}
+		return proxyFactory.getProxyInstance(bean, soldier);
 
 	}
 
@@ -46,7 +61,7 @@ public class ApplicationBeanFactory {
 
 							field.set(bean, result);
 						}else{
-							System.out.println("beanId is err");
+							System.out.println(beanId+":=="+"Autowired:beanId is err or not bean in container");
 						}
 					} catch (IllegalArgumentException e) {
 						// TODO Auto-generated catch block
@@ -75,6 +90,21 @@ public class ApplicationBeanFactory {
 		soldier = soldier1;
 		map = beans;
 
+	}
+	
+	public static void wiredAndprintBeans() {
+		
+		//自动注入and print
+		for (Entry<String, Object> e : map.entrySet()) {
+
+			Object bean = e.getValue();
+			if(bean !=null){
+				autowiredBean(bean);
+			}
+			
+			System.out.println("register: " + e.getKey() + ":" + e.getValue());
+		}
+		System.out.println("*");
 	}
 
 }

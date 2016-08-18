@@ -49,6 +49,7 @@ public class DispatchCommandServlet extends HttpServlet {
 		Object obj = ApplicationBeanFactory.getBean(key);
 		Method method = (Method) actionAndMethod[1];
 
+		@SuppressWarnings("unchecked")
 		Enumeration<String> parameterNames = request.getParameterNames();
 		Map<String, Object> parameterMap = new HashMap<>();
 		while (parameterNames.hasMoreElements()) {

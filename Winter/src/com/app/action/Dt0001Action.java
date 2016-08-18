@@ -12,7 +12,7 @@ import org.winter.fromwork.ActionMethod;
 
 import org.winter.fromwork.Autowired;
 
-
+import com.app.bean.DaiDhpTaisyosya;
 import com.app.service.DtService;
 
 @Action
@@ -29,8 +29,8 @@ public class Dt0001Action {
 		Object he = data.get("validationToken");
 		request.setAttribute("he","sdfjoewjdsf");
 		
-		List<String> list = dtService.getKekan();
-		request.setAttribute("list", list);
+	     List<DaiDhpTaisyosya> dhpTaisyosyaList = dtService.getDhpTaisyosyaList();
+		request.setAttribute("dhpTaisyosyaList", dhpTaisyosyaList);
 		
 		return "/winter/edit.jsp";
 	}
