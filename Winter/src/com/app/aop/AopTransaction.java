@@ -9,6 +9,7 @@ import org.winter.fromwork.aop.AbsInterceptorListener;
 
 public class AopTransaction extends AbsInterceptorListener {
 
+	Logger logger = Logger.getLogger(AopTransaction.class);
 	@Override
 	public void before(Object obj, Method method, Object[] args, MethodProxy proxy) {
 
@@ -16,7 +17,8 @@ public class AopTransaction extends AbsInterceptorListener {
 		
 		if("getKekan".equals(name)){
 			
-			System.out.println("*Transaction Start"+": "+name);
+			logger.info("*Transaction Start"+": "+name);
+			
 			
 		}
 		proceedBefore(obj, method, args, proxy);
@@ -29,7 +31,8 @@ public class AopTransaction extends AbsInterceptorListener {
 	public void after(Object obj, Method method, Object[] args, MethodProxy proxy) {
 		String name = method.getName();
 		if("getKekan".equals(name)){
-			System.out.println("*Transaction End"+": "+name);
+			logger.info("*Transaction End"+": "+name);
+			
 		}
 		proceedAfter(obj, method, args, proxy);
 	}
@@ -41,9 +44,9 @@ public class AopTransaction extends AbsInterceptorListener {
 	public void getException(Object obj, Method method, Object[] args, MethodProxy proxy, Exception e) {
 		
 	   
-		Logger log = Logger.getLogger("");
-		log.info(obj+""+e+":"+method.getName());
-	    log.debug("rollback");
+	
+		logger.error(obj+""+e+":"+method.getName());
+	    logger.error("rollback");
 		proceedException(obj, method, args, proxy, e);
 		
 	}
