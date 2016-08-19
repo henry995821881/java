@@ -1,4 +1,4 @@
-package org.winter.fromwork;
+package org.winter.framework.component;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

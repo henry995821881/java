@@ -1,4 +1,4 @@
-package org.winter.fromwork.test;
+package org.winter.framework.test;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

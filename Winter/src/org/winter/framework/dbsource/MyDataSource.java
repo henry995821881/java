@@ -1,4 +1,4 @@
-package org.winter.fromwork.test;
+package org.winter.framework.dbsource;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Properties;
 
-public class MyDataSource_cp {
+public class MyDataSource {
 
 	private String url;
 	private String driver;
@@ -23,9 +23,11 @@ public class MyDataSource_cp {
 
 	private LinkedList<Connection> connList = new LinkedList<>();
 
-	
+	public MyDataSource(){
+		this(null);
+	}
 
-	public MyDataSource_cp(String propertiesPath) {
+	public MyDataSource(String propertiesPath) {
 
 		String path = "db.properties";
 		if (propertiesPath != null) {
@@ -33,7 +35,7 @@ public class MyDataSource_cp {
 			path = propertiesPath;
 		}
 
-		InputStream is = MyDataSource_cp.class.getClassLoader().getResourceAsStream(path);
+		InputStream is = MyDataSource.class.getClassLoader().getResourceAsStream(path);
 
 		Properties pro = new Properties();
 		String max = null;
@@ -82,44 +84,13 @@ public class MyDataSource_cp {
 
 		Connection conn = connList.remove(0);
 
-		Connection proxy = (Connection) new ProxyFactory().getProxyInstance(conn);
 
-
-		return proxy;
+		return conn;
 	}
 
-	class ProxyFactory implements InvocationHandler {
 
-		Object target;
 
-		public Object getProxyInstance(Object target1) {
-
-			target = target1;
-			return Proxy.newProxyInstance(target1.getClass().getClassLoader(),
-					target.getClass().getInterfaces(), ProxyFactory.this);
-
-		}
-
-		@Override
-		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-			// TODO Auto-generated method stub
-
-			if ("close".equals(method.getName())) {
-
-				 returnConn((Connection) target);
-
-				return null;
-
-			} else {
-
-				return method.invoke(target, args);
-			}
-
-		}
-
-	}
-
-	private synchronized void returnConn(Connection conn) {
+	public synchronized void returnConn(Connection conn) {
 
 		try {
 			if (conn != null && !conn.isClosed()) {
@@ -129,7 +100,7 @@ public class MyDataSource_cp {
 					connList.add(conn);
 				} else {
 
-					conn = null;
+					conn.close();
 					
 				}
 			}
@@ -139,7 +110,7 @@ public class MyDataSource_cp {
 		}
 	}
 
-	// ������ӵ�����
+	
 	private void addConn() {
 
 		Connection conn = null;

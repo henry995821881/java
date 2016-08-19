@@ -24,7 +24,7 @@
 	</context-param>
 
 	<listener>
-		<listener-class>org.winter.fromwork.WinterContextListner</listener-class>
+		<listener-class>org.winter.framework.component.WinterContextListner</listener-class>
 	</listener>
 	<!-- <filter> <filter-name>securityFilter</filter-name> <filter-class></filter-class> 
 		</filter> <filter-mapping> <filter-name>securityFilter</filter-name> <url-pattern>/winter/*</url-pattern> 
@@ -34,7 +34,7 @@
 		<description></description>
 		<display-name>Winter</display-name>
 		<servlet-name>DispatchCommandServlet</servlet-name>
-		<servlet-class>org.winter.fromwork.DispatchCommandServlet</servlet-class>
+		<servlet-class>org.winter.framework.component.DispatchCommandServlet</servlet-class>
 		<!-- <init-param> <param-name>encoding</param-name> <param-value>UTF-8</param-value> 
 			</init-param> -->
 		<load-on-startup>1</load-on-startup>

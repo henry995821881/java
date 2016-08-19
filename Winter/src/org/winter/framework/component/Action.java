@@ -1,13 +1,16 @@
-package org.winter.fromwork;
+package org.winter.framework.component;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Autowired {
+@Target(ElementType.TYPE)
+public @interface Action {
 
-	String beanId() default "";
+	   String value() default "";
+	
+	   
+	
 }

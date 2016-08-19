@@ -1,4 +1,4 @@
-package org.winter.fromwork.dbsource.util;
+package org.winter.framework.dbsource.util;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

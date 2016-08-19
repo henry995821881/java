@@ -1,4 +1,4 @@
-package org.winter.fromwork.test;
+package org.winter.framework.test;
 
 public class ResponsibilityChain {
 

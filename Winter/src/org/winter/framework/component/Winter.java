@@ -1,4 +1,4 @@
-package org.winter.fromwork;
+package org.winter.framework.component;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,8 +15,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.winter.fromwork.aop.AbsInterceptorListener;
-
+import org.winter.framework.aop.AbsInterceptorListener;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 

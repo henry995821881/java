@@ -1,12 +1,12 @@
-package org.winter.fromwork;
+package org.winter.framework.component;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
-import org.winter.fromwork.aop.AbsInterceptorListener;
-import org.winter.fromwork.aop.DefaultProxyFactory;
+import org.winter.framework.aop.AbsInterceptorListener;
+import org.winter.framework.aop.DefaultProxyFactory;
 
 public class ApplicationBeanFactory {
 	private static HashMap<String, Object> map = new HashMap<>();

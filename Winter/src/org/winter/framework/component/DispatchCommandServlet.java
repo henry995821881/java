@@ -1,4 +1,4 @@
-package org.winter.fromwork;
+package org.winter.framework.component;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;

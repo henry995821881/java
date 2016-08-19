@@ -1,4 +1,4 @@
-package org.winter.fromwork.aop;
+package org.winter.framework.aop;
 
 import java.lang.reflect.Method;
 

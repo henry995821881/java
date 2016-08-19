@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.winter.fromwork.Autowired;
+import org.winter.framework.component.Autowired;
 
 import com.app.bean.DaiDhpTaisyosya;
 import com.app.dao.DaiDhpTaisyosyaDao;

@@ -1,4 +1,4 @@
-package org.winter.fromwork.dbsource.util;
+package org.winter.framework.dbsource.util;
 
 import java.sql.Connection;
 import java.sql.ParameterMetaData;
@@ -6,7 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import org.winter.fromwork.dbsource.MyDataSource;
+
+import org.winter.framework.dbsource.MyDataSource;
 
 public class Dbutil {
 

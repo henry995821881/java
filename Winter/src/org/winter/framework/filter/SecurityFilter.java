@@ -1,4 +1,4 @@
-package org.winter.fromwork.filter;
+package org.winter.framework.filter;
 
 import java.io.IOException;
 

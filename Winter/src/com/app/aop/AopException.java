@@ -3,7 +3,7 @@ package com.app.aop;
 import java.lang.reflect.Method;
 
 import org.mockito.cglib.proxy.MethodProxy;
-import org.winter.fromwork.aop.AbsInterceptorListener;
+import org.winter.framework.aop.AbsInterceptorListener;
 
 
 public class AopException extends AbsInterceptorListener {

@@ -7,7 +7,7 @@
 	<!-- <bean id="dbutil" class="org.winter.fromwork.dbsource.util.Dbutil"> 
 		<property name="dataSource" ref="myDataSource" /> </bean> -->
 
-	<bean id="defaultActionMapping" class="org.winter.fromwork.DefaultActionMapping" />
+	<bean id="defaultActionMapping" class="org.winter.framework.component.DefaultActionMapping" />
 
 	<!-- <bean id="person1" class="com.app.bean.Person"> <property name="name" 
 		value="true" /> <property name="sex" value="2.5" /> <property name="leg" 
