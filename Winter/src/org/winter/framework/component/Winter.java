@@ -56,7 +56,7 @@ public class Winter {
 			Entry<String, Object> entry = it.next();
 			Class<?> superclass = entry.getValue().getClass().getSuperclass();
 
-			if ("org.winter.fromwork.aop.AbsInterceptorListener".equals(superclass.getName())) {
+			if ("org.winter.framework.aop.AbsInterceptorListener".equals(superclass.getName())) {
 				AbsInterceptorListener interceptor = (AbsInterceptorListener) entry.getValue();
 
 				if (interceptorBoss != null) {
@@ -186,7 +186,7 @@ class SaxHandler extends DefaultHandler {
 			File folder = new File(path);
 
 			if (!folder.exists()) {
-				System.out.println("!exists");
+				System.out.println("package !exists");
 				return;
 			}
 			handlerFile(packageName, folder, map);

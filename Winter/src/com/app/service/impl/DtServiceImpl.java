@@ -1,12 +1,12 @@
 package com.app.service.impl;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.winter.framework.component.Autowired;
+import org.winter.framework.annotation.Autowired;
 
 import com.app.bean.DaiDhpTaisyosya;
 import com.app.dao.DaiDhpTaisyosyaDao;
@@ -28,6 +28,8 @@ public class DtServiceImpl implements DtService{
 		data.put("sex", "1");
 		data.put("dhpArrayCd", new String[]{"0","A","B","E"});
 		List<DaiDhpTaisyosya> dhpTaisyosyaList = dhpTaisyosyaDao.getDhpTaisyosyaList(data);
+		
+		
 		session.close();
 		
 		

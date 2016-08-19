@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.winter.framework.annotation.Action;
+import org.winter.framework.annotation.ActionMethod;
+
 public class DefaultActionMapping {
 
 	public Object[] getActionAndMethod(String requestURI, String contextPath) {

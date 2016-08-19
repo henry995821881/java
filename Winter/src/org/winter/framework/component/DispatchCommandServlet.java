@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.winter.framework.annotation.ActionMethod;
 import org.xml.sax.SAXException;
 
 public class DispatchCommandServlet extends HttpServlet {

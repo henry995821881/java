@@ -42,7 +42,7 @@ public class WinterContextListner implements ServletContextListener {
 	}
 
 	private void initMybatis(ServletContext servletContext) {
-		System.out.println("初始化 mybatis");
+		System.out.println("init mybatis");
 		Object bean = ApplicationBeanFactory.getBean("mybatis");
 		if (bean != null) {
 
@@ -105,7 +105,7 @@ public class WinterContextListner implements ServletContextListener {
 	}
 
 	private void initWinter(ServletContext servletContext) {
-		System.out.println("初始化 winter");
+		System.out.println("init winter");
 		String winterPath = servletContext.getInitParameter("winterConfigLocation");
 		try {
 			new Winter().initContainer(winterPath);
@@ -124,7 +124,7 @@ public class WinterContextListner implements ServletContextListener {
 
 	private void initLogger4j(ServletContext servletContext) {
 		
-		System.out.println("初始化log4g");
+		System.out.println("init log4g");
 		String path = servletContext.getInitParameter("Log4jConfigLocation");
 		
 		InputStream is1 =null;
@@ -134,10 +134,10 @@ public class WinterContextListner implements ServletContextListener {
 			
 		prop.load(is1);	
 		PropertyConfigurator.configure(prop);
-		System.out.println("PropertyConfigurator 初始化 log4j");
+		System.out.println("PropertyConfigurator init log4j");
 		} catch (Exception e) {
 			BasicConfigurator.configure();
-			System.out.println("默认basic 初始化 log4j");
+			System.out.println("BasicConfigurator init log4j");
 			e.printStackTrace();
 		}finally {
 			if(is1 !=null){

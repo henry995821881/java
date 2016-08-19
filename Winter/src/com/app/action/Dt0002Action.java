@@ -7,9 +7,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.winter.framework.component.Action;
-import org.winter.framework.component.ActionMethod;
-import org.winter.framework.component.Autowired;
+import org.winter.framework.annotation.Action;
+import org.winter.framework.annotation.ActionMethod;
+import org.winter.framework.annotation.Autowired;
 
 import com.app.service.DtService;
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
+import org.winter.framework.annotation.Autowired;
 import org.winter.framework.aop.AbsInterceptorListener;
 import org.winter.framework.aop.DefaultProxyFactory;
 

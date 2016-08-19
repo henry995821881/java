@@ -9,6 +9,9 @@
 
 	<bean id="defaultActionMapping" class="org.winter.framework.component.DefaultActionMapping" />
 
+	 <mybatis factoryId="sqlSessionFactoryId" path="mybatis/config.xml"
+		factoryBuilderClass="org.apache.ibatis.session.SqlSessionFactoryBuilder" /> 
+
 	<!-- <bean id="person1" class="com.app.bean.Person"> <property name="name" 
 		value="true" /> <property name="sex" value="2.5" /> <property name="leg" 
 		ref="leg1" /> <property name="age" value="15" /> </bean> <bean id="leg1" 
@@ -19,8 +22,8 @@
 	<scan package="com.app.aop" />
 	<scan package="com.app.service" />
 	<scan package="com.app.dao" />
+	
 
-	 <mybatis factoryId="sqlSessionFactoryId" path="mybatis/config.xml"
-		factoryBuilderClass="org.apache.ibatis.session.SqlSessionFactoryBuilder" /> 
+
 
 </beans>
