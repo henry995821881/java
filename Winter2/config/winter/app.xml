@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+
+	<!-- <bean id="myDataSource" class="org.winter.fromwork.dbsource.MyDataSource" 
+		/> -->
+	<!-- <bean id="dbutil" class="org.winter.fromwork.dbsource.util.Dbutil"> 
+		<property name="dataSource" ref="myDataSource" /> </bean> -->
+
+	<bean id="defaultActionMapping" class="org.winter.framework.component.DefaultActionMapping" />
+
+
+
+	<bean id="sqlSessionFactoryBuilderBean"
+		class="org.winter.framework.mybatis.SqlSessionFactoryBuilderBean">
+		<property name="configLocation" value="mybatis/config.xml"></property>
+	</bean>
+
+	<!-- <bean id="person1" class="com.app.bean.Person"> <property name="name" 
+		value="true" /> <property name="sex" value="2.5" /> <property name="leg" 
+		ref="leg1" /> <property name="age" value="15" /> </bean> <bean id="leg1" 
+		class="com.app.bean.Leg"> <property name="thumb" value="da" /> <property 
+		name="num" value="2" /> </bean> -->
+
+	<scan package="com.app.action" />
+	<scan package="com.app.service" />
+	<scan package="com.app.dao" />
+
+	<bean id="aopException" class="com.app.aop.AopException"></bean>
+	<bean id="aopLog" class="com.app.aop.AopLog"></bean>
+	<bean id="aopTransaction" class="com.app.aop.AopTransaction"></bean>
+
+
+
+</beans>
