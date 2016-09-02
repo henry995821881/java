@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+
+	<!-- 全局setting -->
+	<settings>
+		<!-- 延迟加载开启 -->
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="aggressiveLazyLoading" value="false" />
+		<!-- 开启二级缓存总开关 同时在对应的mapper中也要开启各自的小开关 -->
+		<setting name="cacheEnabled" value="true" />
+	</settings>
+
+<!-- 别名 -->
+	<typeAliases>
+		<!-- 单个定义别名 -->
+		<!-- <typeAlias type="com.henry.mybatis.po.User" alias="user" /> -->
+		<!-- name 是对应包名 批量别名定义，别名为类名， 首字母大小写都可以 -->
+	<!-- 	<package name="com.henry.ssm.po" /> -->
+
+	</typeAliases>
+
+
+
+
+	<!-- 配置mapper映射文件 -->
+	 <mappers>
+	<!-- 	第一中加载mapper映射文件
+		<mapper resource="sqlMapper/User.xml" /> 
+		
+		<mapper resource="mapper/UserMapper.xml" 
+			/> 
+
+
+
+		第二种加载mapper映射文件 mapper.xml的名字要和对应的接口相同 且2个文件在同一个目录当中，而且是使用mapper代理模式方式的配置 
+			使用接口全类名 -->
+	<!-- 	<mapper class="com.henry.mybatis.mapper.UserMapper"/>
+
+
+
+		第三种方法是批量扫描包名 遵循的规矩和第二种一样
+		和spring整合 也有个扫描，可以不配置 -->
+	<!-- 	<package name="com.henry.ssm.mapper" /> -->
+
+
+	</mappers>
+ 
+
+
+</configuration>
